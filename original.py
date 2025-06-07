@@ -421,7 +421,7 @@ app.layout =html.Div(
     dcc.Graph(figure=px.line(product_sales, x='productID', y='Sales')),
    
     html.H4(
-    f"Maximum Product ID:{max_sales_date_product} , Sales: {max_sales_value_product}$"
+    f"Best selling Product ID:{max_sales_date_product} , Sales: {max_sales_value_product}$"
    
     
 
@@ -434,7 +434,7 @@ app.layout =html.Div(
 
       html.H4(
     
-    f"Minumum Product ID:{min_sales_date_product} , Sales: {min_sales_value_product}$" 
+    f"Worst selling Product ID:{min_sales_date_product} , Sales: {min_sales_value_product}$" 
     
 
             ,style={
