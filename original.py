@@ -237,23 +237,32 @@ ship_costs_stat = df_orders.groupby('shipperID')['freight'].describe()
 ship_costs_stat_reset = ship_costs_stat[['mean', 'std']].reset_index()
 merged_ship_name = pd.merge(merged_ship_name, ship_costs_stat_reset,
                             on='shipperID', how='inner')
-
+print(merged_ship_name['std'] )
+print(merged_ship_name['mean'] )
 
 merged_ship_name['CV'] = merged_ship_name['std'] / merged_ship_name['mean']
-
-merged_ship_name['Consistency_Score'] = (1 / merged_ship_name['CV']) * 100
-
+print(merged_ship_name['CV'] )
+merged_ship_name['Consistency_Score'] = (1 / (1 + (merged_ship_name['std'] / merged_ship_name['mean'])))/100 * 100
+print(merged_ship_name['Consistency_Score'] )
 shippers_id = merged_ship_name['shipperID'].to_numpy()
-c_s_array = merged_ship_name['Consistency_Score'].to_numpy()
+c_s_array = merged_ship_name['CV'].to_numpy()
+
+cv_array = merged_ship_name['CV'].to_numpy()
+sorted_indices = np.argsort(cv_array)
 
 
-print(c_s_array)
-sorted_indices = np.argsort(c_s_array)
-cS_rank = shippers_id[sorted_indices[:3]]
-print()
+top3_consistent_shippers = shippers_id[sorted_indices[:3]]
+c_s_array = merged_ship_name['CV'].to_numpy()
+cS_rank =top3_consistent_shippers
+print("Top 3 Most Consistent Shippers (by CV):")
+for rank, shipper_id in enumerate(top3_consistent_shippers, 1):
+    shipper_data = merged_ship_name[merged_ship_name['shipperID'] == shipper_id]
+    print(f"{rank}. Shipper {shipper_id}: "
+          f"CV={shipper_data['CV'].values[0]:.2f}, "
+          f"Score={shipper_data['Consistency_Score'].values[0]:.1f}")
 
 #print(ship_costs_stat)
-
+ 
 
 #----------------
 available_years=year_labels
@@ -486,7 +495,7 @@ html.Div(style={
 )
 ])
 ,
-        # Additional text information (max/min sales)
+      
         html.H4(
             children=[
                 f"ID:1 , {categorize_consistency(c_s_array[0])}", html.Br(),
