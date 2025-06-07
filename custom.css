@@ -1,0 +1,21 @@
+body {
+   background-image: url("/assets/paper-clouds-and-blue-sky-background-vector.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 0;
+    padding: 0;
+     
+}
+
+div {
+    margin: 0;
+    padding: 0;
+}
+#head{ background-image: url("/assets/WNS-Denali_Blog-post_HD_1980x1080_1672907791.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    
+}
